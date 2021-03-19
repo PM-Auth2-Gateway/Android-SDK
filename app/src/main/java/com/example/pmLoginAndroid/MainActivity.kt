@@ -1,4 +1,4 @@
-package com.example.pm_login_adnroid
+package com.example.pmLoginAndroid
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
