@@ -1,4 +1,4 @@
-package com.example.pm_login_adnroid
+package com.example.pmLoginAndroid
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
