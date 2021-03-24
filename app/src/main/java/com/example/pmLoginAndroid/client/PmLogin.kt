@@ -1,6 +1,9 @@
 package com.example.pmLoginAndroid.client
 
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pmLoginAndroid.di.DaggerLibraryComponent
+import com.example.pmLoginAndroid.di.LibraryComponent
+import com.example.pmLoginAndroid.di.LibraryModule
 import com.example.pmLoginAndroid.ui.PmLoginFragment
 
 object PmLogin {
