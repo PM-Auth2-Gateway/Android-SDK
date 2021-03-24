@@ -1,8 +1,10 @@
 package com.example.pmLoginAndroid.ui
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +24,7 @@ import com.example.pmLoginAndroid.utils.injectViewModel
 import com.example.pmLoginAndroid.utils.setVisible
 import javax.inject.Inject
 
+@Suppress("TooManyFunctions")
 internal class PmLoginFragment : DialogFragment() {
 
     companion object {
@@ -98,11 +101,10 @@ internal class PmLoginFragment : DialogFragment() {
             val customTabsIntent = CustomTabsIntent.Builder().build()
             customTabsIntent.launchUrl(requireContext(), uri)
             shouldRequestProfile = true
-        } catch (e: Exception) {
+        } catch (exception: ActivityNotFoundException) {
+            Log.d("wtf", exception.message.toString())
             viewModel.onBrowserLoginFailed()
-            e.printStackTrace()
         }
-        return
     }
 
     private fun onLoading() {

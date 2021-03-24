@@ -3,6 +3,7 @@ package com.example.pmLoginAndroid.utils
 import retrofit2.HttpException
 import java.io.IOException
 
+@Suppress("TooGenericExceptionCaught")
 internal suspend fun <T> safeApiCall(
     apiCall: suspend () -> T
 ): ResultWrapper<T> {
