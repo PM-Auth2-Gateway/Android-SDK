@@ -14,9 +14,7 @@ import com.example.pmLoginAndroid.data.api.PmService
 import com.example.pmLoginAndroid.data.mapper.AvailableSocialsMapper
 import com.example.pmLoginAndroid.data.request.ChosenSocialRequestData
 import com.example.pmLoginAndroid.data.request.ProfileRequestData
-import com.example.pmLoginAndroid.data.response.ProfileData
-import com.example.pmLoginAndroid.usecases.ProfileVerifyState
-import com.example.pmLoginAndroid.usecases.ProfileVerifyUseCase
+import com.example.pmLoginAndroid.usecases.RequiredFieldUseCase
 import com.example.pmLoginAndroid.utils.ResultWrapper
 import com.example.pmLoginAndroid.utils.safeApiCall
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +28,7 @@ internal class PmLoginViewModel @Inject constructor(
     private val socialsMapper: AvailableSocialsMapper,
     private val pmOptions: PmLogin.PmOptions,
     private val loginResultObservable: MutableLiveData<LoginResult>,
-    //private val profileVerifyUseCase: ProfileVerifyUseCase,
+    private val requiredFieldUseCase: RequiredFieldUseCase,
 ) : ViewModel() {
 
     private val _viewState = MutableLiveData<ViewState>(ViewState.Loading)
@@ -102,12 +100,11 @@ internal class PmLoginViewModel @Inject constructor(
             withContext(Dispatchers.Main) {
                 _viewState.value = when (profile) {
                     is ResultWrapper.Success -> {
-                        /*
-                        *   loginResultObservable.value = requiredFieldsUseCase.verify(profile.value)
-                        *   if (loginResultObservable.value is LoginResult.Success) ViewState.Success
-                        *   else ViewState.Error(LoginError.NoRequiredFields)
-                        * */
-                        ViewState.Success // TODO delete
+                        loginResultObservable.value = requiredFieldUseCase.invoke(profile.value)
+
+                        if (loginResultObservable.value is LoginResult.Success) ViewState.Success
+                            else ViewState.Error(LoginError.NoRequiredFieldsError)
+
                     }
                     is ResultWrapper.GenericError -> {
                         loginResultObservable.value = LoginResult.Error(LoginError.GenericError)

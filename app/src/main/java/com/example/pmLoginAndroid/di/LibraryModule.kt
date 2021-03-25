@@ -6,7 +6,7 @@ import com.example.pmLoginAndroid.client.model.LoginResult
 import com.example.pmLoginAndroid.data.api.AuthHeadersInterceptor
 import com.example.pmLoginAndroid.data.api.PmService
 import com.example.pmLoginAndroid.data.mapper.ProfileToHashMapper
-import com.example.pmLoginAndroid.data.mapper.ProfileToScopeVerifier
+import com.example.pmLoginAndroid.usecases.RequiredFieldUseCase
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -70,12 +70,12 @@ internal class LibraryModule(
     }
 
     @Provides
-    fun provideProfileToScopeVerifier(options: PmLogin.PmOptions): ProfileToScopeVerifier {
-        return ProfileToScopeVerifier(options)
+    fun provideProfileToHashMapper(options: PmLogin.PmOptions): ProfileToHashMapper {
+        return ProfileToHashMapper(options)
     }
 
     @Provides
-    fun provideProfileToHashMapper(options: PmLogin.PmOptions): ProfileToHashMapper {
-        return ProfileToHashMapper(options)
+    fun provideRequiredFieldUseCase(options: PmLogin.PmOptions): RequiredFieldUseCase {
+        return RequiredFieldUseCase(options)
     }
 }
