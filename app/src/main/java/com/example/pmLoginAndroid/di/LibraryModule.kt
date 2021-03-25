@@ -3,6 +3,8 @@ package com.example.pmLoginAndroid.di
 import com.example.pmLoginAndroid.client.PmLogin
 import com.example.pmLoginAndroid.data.api.AuthHeadersInterceptor
 import com.example.pmLoginAndroid.data.api.PmService
+import com.example.pmLoginAndroid.data.mapper.ProfileToHashMapper
+import com.example.pmLoginAndroid.data.mapper.ProfileToScopeVerifier
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -56,5 +58,15 @@ internal class LibraryModule(private val options: PmLogin.PmOptions) {
     @Singleton
     fun providePmService(retrofit: Retrofit): PmService {
         return retrofit.create(PmService::class.java)
+    }
+
+    @Provides
+    fun provideProfileToScopeVerifier(options: PmLogin.PmOptions): ProfileToScopeVerifier {
+        return ProfileToScopeVerifier(options)
+    }
+
+    @Provides
+    fun provideProfileToHashMapper(options: PmLogin.PmOptions): ProfileToHashMapper {
+        return ProfileToHashMapper(options)
     }
 }

@@ -14,6 +14,8 @@ import com.example.pmLoginAndroid.data.mapper.AvailableSocialsMapper
 import com.example.pmLoginAndroid.data.request.ChosenSocialRequestData
 import com.example.pmLoginAndroid.data.request.ProfileRequestData
 import com.example.pmLoginAndroid.data.response.ProfileData
+import com.example.pmLoginAndroid.usecases.ProfileVerifyState
+import com.example.pmLoginAndroid.usecases.ProfileVerifyUseCase
 import com.example.pmLoginAndroid.utils.ResultWrapper
 import com.example.pmLoginAndroid.utils.safeApiCall
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +26,8 @@ import javax.inject.Inject
 internal class PmLoginViewModel @Inject constructor(
     private val urlBuilderFactory: UriBuilderFactory,
     private val pmService: PmService,
-    private val socialsMapper: AvailableSocialsMapper
+    private val socialsMapper: AvailableSocialsMapper,
+    private val profileVerifyUseCase: ProfileVerifyUseCase,
 ) : ViewModel() {
 
     private val _viewState = MutableLiveData<ViewState>(ViewState.Loading)
@@ -88,7 +91,14 @@ internal class PmLoginViewModel @Inject constructor(
             withContext(Dispatchers.Main) {
                 _viewState.value = when (profile) {
                     is ResultWrapper.Success -> {
-                        ViewState.Success(profile.value)
+                        when(val result = profileVerifyUseCase.invoke(profile.value)) {
+                            is ProfileVerifyState.Success -> {
+                                ViewState.Success(result.hashMap)
+                            }
+                            is ProfileVerifyState.Error -> {
+                                ViewState.Error(LoginError.GenericError)
+                            }
+                        }
                     }
                     is ResultWrapper.GenericError -> {
                         Log.d("wtf", profile.code.toString())
@@ -109,5 +119,5 @@ internal sealed class ViewState {
     data class SocialSelect(val data: List<LoginSocial>) : ViewState()
     data class BrowserLogin(val uri: Uri) : ViewState()
     data class Error(val error: LoginError) : ViewState()
-    data class Success(val profile: ProfileData) : ViewState()
+    data class Success(val hashMap: HashMap<String, Any>) : ViewState()
 }

@@ -27,6 +27,7 @@ object PmLogin {
     data class PmOptions(
         val appId: String,
         val redirectUrl: String,
+        val scope: List<String>,
         val onSuccessCallback: (String) -> Unit,
         val onErrorCallback: () -> Unit
     )
