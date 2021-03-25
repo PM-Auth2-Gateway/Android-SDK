@@ -1,6 +1,8 @@
 package com.example.pmLoginAndroid.di
 
+import androidx.lifecycle.MutableLiveData
 import com.example.pmLoginAndroid.client.PmLogin
+import com.example.pmLoginAndroid.client.model.LoginResult
 import com.example.pmLoginAndroid.data.api.AuthHeadersInterceptor
 import com.example.pmLoginAndroid.data.api.PmService
 import com.google.gson.GsonBuilder
@@ -12,11 +14,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-internal class LibraryModule(private val options: PmLogin.PmOptions) {
+internal class LibraryModule(
+    private val options: PmLogin.PmOptions,
+    private val loginResultObservable: MutableLiveData<LoginResult>
+) {
 
     @Provides
     @Singleton
     fun provideOptions(): PmLogin.PmOptions = options
+
+    @Provides
+    @Singleton
+    fun provideResultObservable(): MutableLiveData<LoginResult> = loginResultObservable
 
     @Provides
     @Singleton

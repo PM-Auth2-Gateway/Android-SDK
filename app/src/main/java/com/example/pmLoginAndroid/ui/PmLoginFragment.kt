@@ -37,9 +37,6 @@ internal class PmLoginFragment : DialogFragment() {
     private val binding get() = _binding!!
 
     @Inject
-    lateinit var options: PmLogin.PmOptions
-
-    @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: PmLoginViewModel
 
@@ -134,10 +131,7 @@ internal class PmLoginFragment : DialogFragment() {
                 repeatCount = 0
                 playAnimation()
                 addAnimatorUpdateListener {
-                    if (it.animatedFraction >= 1) {
-                        options.onSuccessCallback("ff")
-                        dialog?.dismiss()
-                    }
+                    if (it.animatedFraction >= 1) dialog?.dismiss()
                 }
             }
         }
@@ -156,10 +150,7 @@ internal class PmLoginFragment : DialogFragment() {
                 repeatCount = 0
                 playAnimation()
                 addAnimatorUpdateListener {
-                    if (it.animatedFraction >= 1) {
-                        options.onErrorCallback()
-                        dialog?.dismiss()
-                    }
+                    if (it.animatedFraction >= 1) dialog?.dismiss()
                 }
             }
         }
@@ -179,7 +170,7 @@ internal class PmLoginFragment : DialogFragment() {
 
     private fun setupRv() {
         socialsAdapter = SocialsAdapter {
-            viewModel.loadAuthUriData(it, options.redirectUrl)
+            viewModel.loadAuthUriData(it)
         }
         binding.rvSocialSelect.apply {
             adapter = socialsAdapter
