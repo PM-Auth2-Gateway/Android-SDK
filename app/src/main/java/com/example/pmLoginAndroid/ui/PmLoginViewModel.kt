@@ -12,6 +12,7 @@ import com.example.pmLoginAndroid.data.LoginSocial
 import com.example.pmLoginAndroid.data.UriBuilderFactory
 import com.example.pmLoginAndroid.data.api.PmService
 import com.example.pmLoginAndroid.data.mapper.AvailableSocialsMapper
+import com.example.pmLoginAndroid.data.mapper.ErrorMapper
 import com.example.pmLoginAndroid.data.request.ChosenSocialRequestData
 import com.example.pmLoginAndroid.data.request.ProfileRequestData
 import com.example.pmLoginAndroid.usecases.RequiredFieldUseCase
@@ -29,6 +30,7 @@ internal class PmLoginViewModel @Inject constructor(
     private val pmOptions: PmLogin.PmOptions,
     private val loginResultObservable: MutableLiveData<LoginResult>,
     private val requiredFieldUseCase: RequiredFieldUseCase,
+    private val errorMapper: ErrorMapper
 ) : ViewModel() {
 
     private val _viewState = MutableLiveData<ViewState>(ViewState.Loading)
@@ -39,17 +41,14 @@ internal class PmLoginViewModel @Inject constructor(
     fun loadAvailableSocials() {
         viewModelScope.launch(Dispatchers.IO) {
             val socials = safeApiCall(pmService::getAvailableSocials)
+
             withContext(Dispatchers.Main) {
-                _viewState.value = when (socials) {
-                    is ResultWrapper.Success ->
-                        ViewState.SocialSelect(socialsMapper.map(socials.value))
-                    is ResultWrapper.GenericError -> {
-                        loginResultObservable.value = LoginResult.Error(LoginError.GenericError)
-                        ViewState.Error(LoginError.GenericError)
+                when (socials) {
+                    is ResultWrapper.Success -> {
+                        _viewState.value = ViewState.SocialSelect(socialsMapper.map(socials.value))
                     }
-                    is ResultWrapper.NetworkError -> {
-                        loginResultObservable.value = LoginResult.Error(LoginError.NetworkError)
-                        ViewState.Error(LoginError.NetworkError)
+                    is ResultWrapper.Error -> {
+                        onNetworkRequestError(socials)
                     }
                 }
             }
@@ -59,30 +58,19 @@ internal class PmLoginViewModel @Inject constructor(
     fun loadAuthUriData(social: LoginSocial) {
         _viewState.value = ViewState.Loading
         viewModelScope.launch(Dispatchers.IO) {
-            val data =
-                safeApiCall {
-                    pmService.getAuthUriData(
-                        ChosenSocialRequestData(
-                            social.id,
-                            pmOptions.redirectUrl
-                        )
-                    )
-                }
+            val chosenSocialRequestData = ChosenSocialRequestData(social.id, pmOptions.redirectUrl)
+            val uriData = safeApiCall { pmService.getAuthUriData(chosenSocialRequestData) }
+
             withContext(Dispatchers.Main) {
-                _viewState.value = when (data) {
+                when (uriData) {
                     is ResultWrapper.Success -> {
                         val urlBuilder = urlBuilderFactory.create(social)
-                        val uri = urlBuilder.build(data.value)
-                        currentSessionId = data.value.state
-                        ViewState.BrowserLogin(uri)
+                        val uri = urlBuilder.build(uriData.value)
+                        currentSessionId = uriData.value.state
+                        _viewState.value = ViewState.BrowserLogin(uri)
                     }
-                    is ResultWrapper.GenericError -> {
-                        loginResultObservable.value = LoginResult.Error(LoginError.GenericError)
-                        ViewState.Error(LoginError.GenericError)
-                    }
-                    is ResultWrapper.NetworkError -> {
-                        loginResultObservable.value = LoginResult.Error(LoginError.NetworkError)
-                        ViewState.Error(LoginError.NetworkError)
+                    is ResultWrapper.Error -> {
+                        onNetworkRequestError(uriData)
                     }
                 }
             }
@@ -97,26 +85,27 @@ internal class PmLoginViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val profile =
                 safeApiCall { pmService.getProfileInfo(ProfileRequestData(currentSessionId)) }
+
             withContext(Dispatchers.Main) {
-                _viewState.value = when (profile) {
+                when (profile) {
                     is ResultWrapper.Success -> {
                         loginResultObservable.value = requiredFieldUseCase.invoke(profile.value)
-
-                        if (loginResultObservable.value is LoginResult.Success) ViewState.Success
+                        _viewState.value =
+                            if (loginResultObservable.value is LoginResult.Success) ViewState.Success
                             else ViewState.Error(LoginError.NoRequiredFieldsError)
-
                     }
-                    is ResultWrapper.GenericError -> {
-                        loginResultObservable.value = LoginResult.Error(LoginError.GenericError)
-                        ViewState.Error(LoginError.GenericError)
-                    }
-                    is ResultWrapper.NetworkError -> {
-                        loginResultObservable.value = LoginResult.Error(LoginError.NetworkError)
-                        ViewState.Error(LoginError.NetworkError)
+                    is ResultWrapper.Error -> {
+                        onNetworkRequestError(profile)
                     }
                 }
             }
         }
+    }
+
+    private fun onNetworkRequestError(request: ResultWrapper.Error) {
+        val error = errorMapper.map(request)
+        _viewState.value = ViewState.Error(error)
+        loginResultObservable.value = LoginResult.Error(error)
     }
 }
 
@@ -126,6 +115,5 @@ internal sealed class ViewState {
     data class SocialSelect(val data: List<LoginSocial>) : ViewState()
     data class BrowserLogin(val uri: Uri) : ViewState()
     data class Error(val error: LoginError) : ViewState()
-    //data class Success(val hashMap: HashMap<String, Any>) : ViewState()
     object Success : ViewState()
 }
