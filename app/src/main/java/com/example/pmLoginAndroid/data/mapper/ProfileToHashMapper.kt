@@ -34,6 +34,15 @@ internal class ProfileToHashMapper @Inject constructor(
             if(field == ProfileFields.PROFILE_IS_EMAIL_VERIFIED) {
                 map[ProfileFields.PROFILE_IS_EMAIL_VERIFIED] = profile.isVerifiedEmail
             }
+            if(field == ProfileFields.PROFILE_ACCESS_TOKEN) {
+                map[ProfileFields.PROFILE_ACCESS_TOKEN] = profile.accessToken
+            }
+            if(field == ProfileFields.PROFILE_REFRESH_TOKEN) {
+                map[ProfileFields.PROFILE_REFRESH_TOKEN] = profile.refreshToken
+            }
+            if(field == ProfileFields.PROFILE_EXPIRES_IN) {
+                map[ProfileFields.PROFILE_EXPIRES_IN] = profile.expiresIn
+            }
         }
         return map
     }

@@ -32,6 +32,15 @@ internal class ProfileToScopeVerifier @Inject constructor(
         if (options.scope.contains(ProfileFields.PROFILE_IS_EMAIL_VERIFIED)) {
             profile.isVerifiedEmail ?: return false
         }
+        if (options.scope.contains(ProfileFields.PROFILE_ACCESS_TOKEN)) {
+            profile.accessToken ?: return false
+        }
+        if (options.scope.contains(ProfileFields.PROFILE_EXPIRES_IN)) {
+            profile.expiresIn ?: return false
+        }
+        if (options.scope.contains(ProfileFields.PROFILE_REFRESH_TOKEN)) {
+            profile.refreshToken ?: return false
+        }
         return true
     }
 }
