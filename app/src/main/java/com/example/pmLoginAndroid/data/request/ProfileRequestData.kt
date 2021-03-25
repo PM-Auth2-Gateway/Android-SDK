@@ -2,7 +2,7 @@ package com.example.pmLoginAndroid.data.request
 
 import com.google.gson.annotations.SerializedName
 
-data class ProfileRequestData(
-    @SerializedName("sessionId")
+internal data class ProfileRequestData(
+    @SerializedName("session_id")
     val sessionId: String
 )

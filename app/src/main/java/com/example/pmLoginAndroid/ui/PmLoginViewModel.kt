@@ -1,11 +1,12 @@
 package com.example.pmLoginAndroid.ui
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pmLoginAndroid.client.PmLogin
+import com.example.pmLoginAndroid.client.model.LoginResult
 import com.example.pmLoginAndroid.data.LoginError
 import com.example.pmLoginAndroid.data.LoginSocial
 import com.example.pmLoginAndroid.data.UriBuilderFactory
@@ -13,7 +14,6 @@ import com.example.pmLoginAndroid.data.api.PmService
 import com.example.pmLoginAndroid.data.mapper.AvailableSocialsMapper
 import com.example.pmLoginAndroid.data.request.ChosenSocialRequestData
 import com.example.pmLoginAndroid.data.request.ProfileRequestData
-import com.example.pmLoginAndroid.data.response.ProfileData
 import com.example.pmLoginAndroid.utils.ResultWrapper
 import com.example.pmLoginAndroid.utils.safeApiCall
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +24,10 @@ import javax.inject.Inject
 internal class PmLoginViewModel @Inject constructor(
     private val urlBuilderFactory: UriBuilderFactory,
     private val pmService: PmService,
-    private val socialsMapper: AvailableSocialsMapper
+    private val socialsMapper: AvailableSocialsMapper,
+    private val pmOptions: PmLogin.PmOptions,
+    private val loginResultObservable: MutableLiveData<LoginResult>,
+    // requiredFieldsUseCase
 ) : ViewModel() {
 
     private val _viewState = MutableLiveData<ViewState>(ViewState.Loading)
@@ -39,16 +42,20 @@ internal class PmLoginViewModel @Inject constructor(
                 _viewState.value = when (socials) {
                     is ResultWrapper.Success ->
                         ViewState.SocialSelect(socialsMapper.map(socials.value))
-                    is ResultWrapper.GenericError ->
+                    is ResultWrapper.GenericError -> {
+                        loginResultObservable.value = LoginResult.Error(LoginError.GenericError)
                         ViewState.Error(LoginError.GenericError)
-                    is ResultWrapper.NetworkError ->
+                    }
+                    is ResultWrapper.NetworkError -> {
+                        loginResultObservable.value = LoginResult.Error(LoginError.NetworkError)
                         ViewState.Error(LoginError.NetworkError)
+                    }
                 }
             }
         }
     }
 
-    fun loadAuthUriData(social: LoginSocial, redirectUrl: String) {
+    fun loadAuthUriData(social: LoginSocial) {
         _viewState.value = ViewState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             val data =
@@ -56,7 +63,7 @@ internal class PmLoginViewModel @Inject constructor(
                     pmService.getAuthUriData(
                         ChosenSocialRequestData(
                             social.id,
-                            redirectUrl
+                            pmOptions.redirectUrl
                         )
                     )
                 }
@@ -68,10 +75,14 @@ internal class PmLoginViewModel @Inject constructor(
                         currentSessionId = data.value.state
                         ViewState.BrowserLogin(uri)
                     }
-                    is ResultWrapper.GenericError ->
+                    is ResultWrapper.GenericError -> {
+                        loginResultObservable.value = LoginResult.Error(LoginError.GenericError)
                         ViewState.Error(LoginError.GenericError)
-                    is ResultWrapper.NetworkError ->
+                    }
+                    is ResultWrapper.NetworkError -> {
+                        loginResultObservable.value = LoginResult.Error(LoginError.NetworkError)
                         ViewState.Error(LoginError.NetworkError)
+                    }
                 }
             }
         }
@@ -88,15 +99,21 @@ internal class PmLoginViewModel @Inject constructor(
             withContext(Dispatchers.Main) {
                 _viewState.value = when (profile) {
                     is ResultWrapper.Success -> {
-                        ViewState.Success(profile.value)
+                        /*
+                        *   loginResultObservable.value = requiredFieldsUseCase.verify(profile.value)
+                        *   if (loginResultObservable.value is LoginResult.Success) ViewState.Success
+                        *   else ViewState.Error(LoginError.NoRequiredFields)
+                        * */
+                        ViewState.Success // TODO delete
                     }
                     is ResultWrapper.GenericError -> {
-                        Log.d("wtf", profile.code.toString())
-                        Log.d("wtf", profile.error.toString())
+                        loginResultObservable.value = LoginResult.Error(LoginError.GenericError)
                         ViewState.Error(LoginError.GenericError)
                     }
-                    is ResultWrapper.NetworkError ->
+                    is ResultWrapper.NetworkError -> {
+                        loginResultObservable.value = LoginResult.Error(LoginError.NetworkError)
                         ViewState.Error(LoginError.NetworkError)
+                    }
                 }
             }
         }
@@ -109,5 +126,5 @@ internal sealed class ViewState {
     data class SocialSelect(val data: List<LoginSocial>) : ViewState()
     data class BrowserLogin(val uri: Uri) : ViewState()
     data class Error(val error: LoginError) : ViewState()
-    data class Success(val profile: ProfileData) : ViewState()
+    object Success : ViewState()
 }

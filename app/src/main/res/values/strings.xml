@@ -1,6 +1,7 @@
 <resources>
     <string name="network_error">Check your connection</string>
     <string name="generic_error">Something went wrong</string>
+    <string name="no_required_fields_error">Try using another social</string>
 
     <string name="login_success">Success</string>
 </resources>
