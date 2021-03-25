@@ -69,13 +69,4 @@ internal class LibraryModule(
         return retrofit.create(PmService::class.java)
     }
 
-    @Provides
-    fun provideProfileToHashMapper(options: PmLogin.PmOptions): ProfileToHashMapper {
-        return ProfileToHashMapper(options)
-    }
-
-    @Provides
-    fun provideRequiredFieldUseCase(options: PmLogin.PmOptions): RequiredFieldUseCase {
-        return RequiredFieldUseCase(options)
-    }
 }
