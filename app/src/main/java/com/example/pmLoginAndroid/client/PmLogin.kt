@@ -33,6 +33,6 @@ object PmLogin {
     data class PmOptions(
         val appId: String,
         val redirectUrl: String,
-        // requiredFields
+        val requiredFields: List<String>
     )
 }
