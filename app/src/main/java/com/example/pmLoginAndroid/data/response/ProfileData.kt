@@ -4,12 +4,10 @@ package com.example.pmLoginAndroid.data.response
 import com.google.gson.annotations.SerializedName
 
 data class ProfileData(
-    @SerializedName("accessToken")
-    val accessToken: String,
+    @SerializedName("additionalInformation")
+    val additionalInformation: AdditionalInformation,
     @SerializedName("email")
     val email: String,
-    @SerializedName("expiresIn")
-    val expiresIn: Int,
     @SerializedName("firstName")
     val firstName: String,
     @SerializedName("id")
@@ -21,7 +19,14 @@ data class ProfileData(
     @SerializedName("locale")
     val locale: String,
     @SerializedName("photo")
-    val photo: String,
-    @SerializedName("refreshToken")
-    val refreshToken: String
+    val photo: String
+)
+
+data class AdditionalInformation(
+    @SerializedName("additionalProp1")
+    val additionalProp1: String,
+    @SerializedName("additionalProp2")
+    val additionalProp2: String,
+    @SerializedName("additionalProp3")
+    val additionalProp3: String
 )
