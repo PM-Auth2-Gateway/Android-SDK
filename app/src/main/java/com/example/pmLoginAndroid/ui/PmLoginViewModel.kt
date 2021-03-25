@@ -28,7 +28,7 @@ internal class PmLoginViewModel @Inject constructor(
     private val urlBuilderFactory: UriBuilderFactory,
     private val pmService: PmService,
     private val socialsMapper: AvailableSocialsMapper,
-    private val profileVerifyUseCase: ProfileVerifyUseCase,
+    //private val profileVerifyUseCase: ProfileVerifyUseCase,
     private val pmOptions: PmLogin.PmOptions,
     private val loginResultObservable: MutableLiveData<LoginResult>,
     // requiredFieldsUseCase
