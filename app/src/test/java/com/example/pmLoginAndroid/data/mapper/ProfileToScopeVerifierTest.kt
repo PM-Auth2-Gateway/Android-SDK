@@ -46,40 +46,4 @@ internal class ProfileToScopeVerifierTest {
         assert(ProfileToScopeVerifier(options).verify(profile))
     }
 
-    @Ignore("ProfileToScopeVerifier catching null works correctly: Ignored while profile is not nullable")
-    @Test
-    fun `ProfileToScopeVerifier catching null works correctly`() {
-        val options = PmLogin.PmOptions(
-            appId = "1",
-            redirectUrl = "pmacademy://authorize",
-            onErrorCallback = {
-                Log.d("TAG", " error")
-            },
-            onSuccessCallback = {
-                Log.d("TAG", " Success")
-            },
-            scope = listOf(
-                ProfileFields.PROFILE_ID,
-                ProfileFields.PROFILE_LOCALE,
-                ProfileFields.PROFILE_PHOTO,
-                ProfileFields.PROFILE_FIRST_NAME,
-                ProfileFields.PROFILE_LAST_NAME,
-            )
-        )
-
-        val profile = ProfileData(
-            accessToken = "null",
-            email = "",
-            expiresIn = 213,
-            firstName = "asd",
-            lastName = "dsa",
-            id = "null",
-            isVerifiedEmail = true,
-            locale = "ru",
-            photo = "",
-            refreshToken = "434"
-        )
-
-        assert(!ProfileToScopeVerifier(options).verify(profile))
-    }
 }
