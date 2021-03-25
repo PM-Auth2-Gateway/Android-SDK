@@ -6,16 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pmLoginAndroid.client.PmLogin
+import com.example.pmLoginAndroid.client.model.LoginError
 import com.example.pmLoginAndroid.client.model.LoginResult
-import com.example.pmLoginAndroid.data.LoginError
-import com.example.pmLoginAndroid.data.LoginSocial
-import com.example.pmLoginAndroid.data.UriBuilderFactory
 import com.example.pmLoginAndroid.data.api.PmService
 import com.example.pmLoginAndroid.data.mapper.AvailableSocialsMapper
 import com.example.pmLoginAndroid.data.mapper.ErrorMapper
 import com.example.pmLoginAndroid.data.request.ChosenSocialRequestData
 import com.example.pmLoginAndroid.data.request.ProfileRequestData
-import com.example.pmLoginAndroid.usecases.RequiredFieldUseCase
+import com.example.pmLoginAndroid.data.response.LoginSocial
+import com.example.pmLoginAndroid.data.uris.UriBuilderFactory
+import com.example.pmLoginAndroid.data.usecases.RequiredFieldUseCase
 import com.example.pmLoginAndroid.utils.ResultWrapper
 import com.example.pmLoginAndroid.utils.safeApiCall
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +23,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+// TODO Reduce params amount
+// Maybe should extract result mapping to repository?
+@Suppress("LongParameterList")
 internal class PmLoginViewModel @Inject constructor(
     private val urlBuilderFactory: UriBuilderFactory,
     private val pmService: PmService,

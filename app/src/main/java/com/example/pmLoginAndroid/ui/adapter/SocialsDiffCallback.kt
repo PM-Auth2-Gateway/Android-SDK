@@ -1,7 +1,7 @@
 package com.example.pmLoginAndroid.ui.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.pmLoginAndroid.data.LoginSocial
+import com.example.pmLoginAndroid.data.response.LoginSocial
 
 internal class SocialsDiffCallback : DiffUtil.ItemCallback<LoginSocial>() {
     override fun areItemsTheSame(oldItem: LoginSocial, newItem: LoginSocial): Boolean =

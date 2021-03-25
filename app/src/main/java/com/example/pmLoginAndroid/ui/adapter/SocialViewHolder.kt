@@ -2,7 +2,7 @@ package com.example.pmLoginAndroid.ui.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pmLoginAndroid.data.LoginSocial
+import com.example.pmLoginAndroid.data.response.LoginSocial
 import com.example.pmLoginAndroid.databinding.SocialItemBinding
 
 internal class SocialViewHolder(itemView: View, private val callback: (LoginSocial) -> Unit) :

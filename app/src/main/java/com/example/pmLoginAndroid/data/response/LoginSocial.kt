@@ -1,4 +1,4 @@
-package com.example.pmLoginAndroid.data
+package com.example.pmLoginAndroid.data.response
 
 import androidx.annotation.IdRes
 import com.example.pmLoginAndroid.R

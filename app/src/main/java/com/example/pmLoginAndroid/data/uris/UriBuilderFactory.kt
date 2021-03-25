@@ -1,8 +1,6 @@
-package com.example.pmLoginAndroid.data
+package com.example.pmLoginAndroid.data.uris
 
-import com.example.pmLoginAndroid.data.uris.AuthUriBuilder
-import com.example.pmLoginAndroid.data.uris.FacebookAuthUriBuilder
-import com.example.pmLoginAndroid.data.uris.GoogleAuthUriBuilder
+import com.example.pmLoginAndroid.data.response.LoginSocial
 import javax.inject.Inject
 
 internal class UriBuilderFactory @Inject constructor() {

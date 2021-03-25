@@ -1,6 +1,6 @@
-package com.example.pmLoginAndroid.data
+package com.example.pmLoginAndroid.client.model
 
-object ProfileFields {
+object ProfileContract {
 
     const val ID = "id"
     const val FIRST_NAME = "firstName"

@@ -1,7 +1,7 @@
 package com.example.pmLoginAndroid.data.mapper
 
-import com.example.pmLoginAndroid.data.LoginSocial
 import com.example.pmLoginAndroid.data.response.AvailableSocials
+import com.example.pmLoginAndroid.data.response.LoginSocial
 import javax.inject.Inject
 
 internal class AvailableSocialsMapper @Inject constructor() {

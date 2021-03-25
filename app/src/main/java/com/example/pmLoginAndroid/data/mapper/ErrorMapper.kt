@@ -1,6 +1,6 @@
 package com.example.pmLoginAndroid.data.mapper
 
-import com.example.pmLoginAndroid.data.LoginError
+import com.example.pmLoginAndroid.client.model.LoginError
 import com.example.pmLoginAndroid.utils.ResultWrapper
 import javax.inject.Inject
 
