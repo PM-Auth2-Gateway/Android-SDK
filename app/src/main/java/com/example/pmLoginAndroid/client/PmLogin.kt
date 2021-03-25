@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.pmLoginAndroid.client.model.LoginResult
-import com.example.pmLoginAndroid.data.ProfileFields
 import com.example.pmLoginAndroid.di.DaggerLibraryComponent
 import com.example.pmLoginAndroid.di.LibraryComponent
 import com.example.pmLoginAndroid.di.LibraryModule

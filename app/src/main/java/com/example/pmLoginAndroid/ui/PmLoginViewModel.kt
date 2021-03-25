@@ -14,6 +14,9 @@ import com.example.pmLoginAndroid.data.api.PmService
 import com.example.pmLoginAndroid.data.mapper.AvailableSocialsMapper
 import com.example.pmLoginAndroid.data.request.ChosenSocialRequestData
 import com.example.pmLoginAndroid.data.request.ProfileRequestData
+import com.example.pmLoginAndroid.data.response.ProfileData
+import com.example.pmLoginAndroid.usecases.ProfileVerifyState
+import com.example.pmLoginAndroid.usecases.ProfileVerifyUseCase
 import com.example.pmLoginAndroid.utils.ResultWrapper
 import com.example.pmLoginAndroid.utils.safeApiCall
 import kotlinx.coroutines.Dispatchers
@@ -126,5 +129,6 @@ internal sealed class ViewState {
     data class SocialSelect(val data: List<LoginSocial>) : ViewState()
     data class BrowserLogin(val uri: Uri) : ViewState()
     data class Error(val error: LoginError) : ViewState()
+    //data class Success(val hashMap: HashMap<String, Any>) : ViewState()
     object Success : ViewState()
 }
