@@ -27,7 +27,7 @@ internal class PmLoginViewModel @Inject constructor(
     private val socialsMapper: AvailableSocialsMapper,
     private val pmOptions: PmLogin.PmOptions,
     private val loginResultObservable: MutableLiveData<LoginResult>,
-    // requiredFieldsUseCase
+    //private val profileVerifyUseCase: ProfileVerifyUseCase,
 ) : ViewModel() {
 
     private val _viewState = MutableLiveData<ViewState>(ViewState.Loading)

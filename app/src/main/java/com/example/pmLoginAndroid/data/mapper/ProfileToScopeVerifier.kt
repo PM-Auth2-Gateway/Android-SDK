@@ -11,35 +11,29 @@ internal class ProfileToScopeVerifier @Inject constructor(
 ) {
 
     fun verify(profile: ProfileData): Boolean {
-        if (options.scope.contains(ProfileFields.PROFILE_ID)) {
+        if (options.requiredFields.contains(ProfileFields.PROFILE_ID)) {
             profile.id ?: return false
         }
-        if (options.scope.contains(ProfileFields.PROFILE_EMAIL)) {
+        if (options.requiredFields.contains(ProfileFields.PROFILE_EMAIL)) {
             profile.email ?: return false
         }
-        if (options.scope.contains(ProfileFields.PROFILE_FIRST_NAME)) {
+        if (options.requiredFields.contains(ProfileFields.PROFILE_FIRST_NAME)) {
             profile.firstName ?: return false
         }
-        if (options.scope.contains(ProfileFields.PROFILE_LAST_NAME)) {
+        if (options.requiredFields.contains(ProfileFields.PROFILE_LAST_NAME)) {
             profile.lastName ?: return false
         }
-        if (options.scope.contains(ProfileFields.PROFILE_PHOTO)) {
+        if (options.requiredFields.contains(ProfileFields.PROFILE_PHOTO)) {
             profile.photo ?: return false
         }
-        if (options.scope.contains(ProfileFields.PROFILE_LOCALE)) {
+        if (options.requiredFields.contains(ProfileFields.PROFILE_LOCALE)) {
             profile.locale ?: return false
         }
-        if (options.scope.contains(ProfileFields.PROFILE_IS_EMAIL_VERIFIED)) {
+        if (options.requiredFields.contains(ProfileFields.PROFILE_IS_EMAIL_VERIFIED)) {
             profile.isVerifiedEmail ?: return false
         }
-        if (options.scope.contains(ProfileFields.PROFILE_ACCESS_TOKEN)) {
-            profile.accessToken ?: return false
-        }
-        if (options.scope.contains(ProfileFields.PROFILE_EXPIRES_IN)) {
-            profile.expiresIn ?: return false
-        }
-        if (options.scope.contains(ProfileFields.PROFILE_REFRESH_TOKEN)) {
-            profile.refreshToken ?: return false
+        if (options.requiredFields.contains(ProfileFields.PROFILE_ADDITIONAL_INFO)) {
+            profile.additionalInformation ?: return false
         }
         return true
     }

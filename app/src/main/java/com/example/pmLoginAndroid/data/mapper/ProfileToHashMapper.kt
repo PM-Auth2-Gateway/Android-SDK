@@ -12,7 +12,7 @@ internal class ProfileToHashMapper @Inject constructor(
     fun map(profile: ProfileData): HashMap<String, Any> {
         val map = hashMapOf<String, Any>()
 
-        options.scope.forEach { field ->
+        options.requiredFields.forEach { field ->
             if (field == ProfileFields.PROFILE_ID) {
                 map[ProfileFields.PROFILE_ID] = profile.id
             }
@@ -34,14 +34,8 @@ internal class ProfileToHashMapper @Inject constructor(
             if(field == ProfileFields.PROFILE_IS_EMAIL_VERIFIED) {
                 map[ProfileFields.PROFILE_IS_EMAIL_VERIFIED] = profile.isVerifiedEmail
             }
-            if(field == ProfileFields.PROFILE_ACCESS_TOKEN) {
-                map[ProfileFields.PROFILE_ACCESS_TOKEN] = profile.accessToken
-            }
-            if(field == ProfileFields.PROFILE_REFRESH_TOKEN) {
-                map[ProfileFields.PROFILE_REFRESH_TOKEN] = profile.refreshToken
-            }
-            if(field == ProfileFields.PROFILE_EXPIRES_IN) {
-                map[ProfileFields.PROFILE_EXPIRES_IN] = profile.expiresIn
+            if(field == ProfileFields.PROFILE_ADDITIONAL_INFO) {
+                map[ProfileFields.PROFILE_ADDITIONAL_INFO] = profile.additionalInformation
             }
         }
         return map
