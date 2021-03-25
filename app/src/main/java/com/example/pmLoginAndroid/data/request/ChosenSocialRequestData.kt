@@ -2,7 +2,7 @@ package com.example.pmLoginAndroid.data.request
 
 import com.google.gson.annotations.SerializedName
 
-data class ChosenSocialRequestData(
+internal data class ChosenSocialRequestData(
     @SerializedName("social_id")
     val socialId: Int,
     @SerializedName("device")
