@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#000000"
+    android:background="@color/black"
     android:padding="@dimen/default_container_padding">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,12 +24,13 @@
             android:id="@+id/rv_social_select"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
             android:paddingHorizontal="@dimen/default_container_padding"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_cancel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_label" />
+            app:layout_constraintTop_toBottomOf="@id/tv_label"
+            tools:listitem="@layout/social_item" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/law_status"
@@ -39,20 +41,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true" />
-        <!--            app:lottie_autoPlay="true"-->
-        <!--            app:lottie_loop="true"-->
-        <!--            app:lottie_rawRes="@raw/status_loading" />-->
 
         <TextView
             android:id="@+id/tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/status_msg_text_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/law_status" />
+
+        <TextView
+            android:id="@+id/btn_cancel"
+            style="@style/default_pm_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/default_button_bg"
+            android:text="@string/cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -64,6 +64,10 @@ internal class PmLoginFragment : DialogFragment() {
         setupRv()
         setupObserver()
         if (savedInstanceState == null) viewModel.loadAvailableSocials()
+
+        binding.btnCancel.setOnClickListener {
+            dialog?.dismiss()
+        }
     }
 
     override fun onResume() {
@@ -123,6 +127,7 @@ internal class PmLoginFragment : DialogFragment() {
             rvSocialSelect.setVisible(false)
             tvStatus.setVisible(true)
             tvStatus.text = getString(R.string.login_success)
+            btnCancel.setVisible(false)
             lawStatus.apply {
                 setVisible(true)
                 removeAllUpdateListeners()
@@ -142,6 +147,7 @@ internal class PmLoginFragment : DialogFragment() {
             rvSocialSelect.setVisible(false)
             tvStatus.setVisible(true)
             tvStatus.text = getString(error.msgId)
+            btnCancel.setVisible(false)
             lawStatus.apply {
                 setVisible(true)
                 cancelAnimation()

@@ -6,6 +6,5 @@ internal sealed class ResultWrapper<out T> {
         val isNetworkError: Boolean,
         val code: Int? = null,
         val error: String? = null
-    ) :
-        ResultWrapper<Nothing>()
+    ) : ResultWrapper<Nothing>()
 }
