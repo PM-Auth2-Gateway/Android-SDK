@@ -5,8 +5,7 @@ import com.example.pmLoginAndroid.client.PmLogin
 import com.example.pmLoginAndroid.client.model.LoginResult
 import com.example.pmLoginAndroid.data.api.AuthHeadersInterceptor
 import com.example.pmLoginAndroid.data.api.PmService
-import com.example.pmLoginAndroid.data.mapper.ProfileToHashMapper
-import com.example.pmLoginAndroid.usecases.RequiredFieldUseCase
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -65,17 +64,12 @@ internal class LibraryModule(
 
     @Provides
     @Singleton
+    fun provideGson(): Gson = Gson()
+
+    @Provides
+    @Singleton
     fun providePmService(retrofit: Retrofit): PmService {
         return retrofit.create(PmService::class.java)
     }
 
-    @Provides
-    fun provideProfileToHashMapper(options: PmLogin.PmOptions): ProfileToHashMapper {
-        return ProfileToHashMapper(options)
-    }
-
-    @Provides
-    fun provideRequiredFieldUseCase(options: PmLogin.PmOptions): RequiredFieldUseCase {
-        return RequiredFieldUseCase(options)
-    }
 }

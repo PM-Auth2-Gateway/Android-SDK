@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieDrawable
 import com.example.pmLoginAndroid.R
 import com.example.pmLoginAndroid.client.PmLogin
-import com.example.pmLoginAndroid.data.LoginError
-import com.example.pmLoginAndroid.data.LoginSocial
+import com.example.pmLoginAndroid.client.model.LoginError
+import com.example.pmLoginAndroid.data.response.LoginSocial
 import com.example.pmLoginAndroid.databinding.PmLoginFragmentBinding
 import com.example.pmLoginAndroid.ui.adapter.SocialsAdapter
 import com.example.pmLoginAndroid.utils.injectViewModel
@@ -64,6 +64,10 @@ internal class PmLoginFragment : DialogFragment() {
         setupRv()
         setupObserver()
         if (savedInstanceState == null) viewModel.loadAvailableSocials()
+
+        binding.btnCancel.setOnClickListener {
+            dialog?.dismiss()
+        }
     }
 
     override fun onResume() {
@@ -123,6 +127,7 @@ internal class PmLoginFragment : DialogFragment() {
             rvSocialSelect.setVisible(false)
             tvStatus.setVisible(true)
             tvStatus.text = getString(R.string.login_success)
+            btnCancel.setVisible(false)
             lawStatus.apply {
                 setVisible(true)
                 removeAllUpdateListeners()
@@ -142,6 +147,7 @@ internal class PmLoginFragment : DialogFragment() {
             rvSocialSelect.setVisible(false)
             tvStatus.setVisible(true)
             tvStatus.text = getString(error.msgId)
+            btnCancel.setVisible(false)
             lawStatus.apply {
                 setVisible(true)
                 cancelAnimation()

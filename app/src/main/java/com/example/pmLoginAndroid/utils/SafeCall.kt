@@ -11,14 +11,18 @@ internal suspend fun <T> safeApiCall(
         ResultWrapper.Success(apiCall.invoke())
     } catch (throwable: Throwable) {
         when (throwable) {
-            is IOException -> ResultWrapper.NetworkError
+            is IOException -> ResultWrapper.Error(isNetworkError = true)
             is HttpException -> {
                 val code = throwable.code()
-                val errorResponse = throwable.response().toString()
-                ResultWrapper.GenericError(code, errorResponse)
+                val errorResponse = throwable.response()?.errorBody()
+                ResultWrapper.Error(
+                    isNetworkError = false,
+                    code = code,
+                    errorBody = errorResponse
+                )
             }
             else -> {
-                ResultWrapper.GenericError(null, null)
+                ResultWrapper.Error(isNetworkError = false)
             }
         }
     }

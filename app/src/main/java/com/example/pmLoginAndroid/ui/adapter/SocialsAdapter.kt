@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.pmLoginAndroid.R
-import com.example.pmLoginAndroid.data.LoginSocial
+import com.example.pmLoginAndroid.data.response.LoginSocial
 
 internal class SocialsAdapter(private val callback: (LoginSocial) -> Unit) :
     ListAdapter<LoginSocial, SocialViewHolder>(SocialsDiffCallback()) {

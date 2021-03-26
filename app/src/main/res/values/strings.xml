@@ -2,6 +2,10 @@
     <string name="network_error">Check your connection</string>
     <string name="generic_error">Something went wrong</string>
     <string name="no_required_fields_error">Try using another social</string>
+    <string name="aborted_authorization_error">You haven\'t authorized properly</string>
+    <string name="session_id_expired_error">Session id expired</string>
+    <string name="authorization_error">Try again later</string>
 
     <string name="login_success">Success</string>
+    <string name="cancel">Cancel</string>
 </resources>
