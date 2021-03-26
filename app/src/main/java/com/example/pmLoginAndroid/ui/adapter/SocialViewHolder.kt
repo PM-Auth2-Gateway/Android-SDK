@@ -4,6 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pmLoginAndroid.data.response.LoginSocial
 import com.example.pmLoginAndroid.databinding.SocialItemBinding
+import com.example.pmLoginAndroid.utils.onSingleClickListener
 
 internal class SocialViewHolder(itemView: View, private val callback: (LoginSocial) -> Unit) :
     RecyclerView.ViewHolder(itemView) {
@@ -14,7 +15,7 @@ internal class SocialViewHolder(itemView: View, private val callback: (LoginSoci
         binding.apply {
             root.text = social.label
             root.setCompoundDrawablesRelativeWithIntrinsicBounds(social.icon, 0, 0, 0)
-            root.setOnClickListener {
+            root.onSingleClickListener {
                 callback(social)
             }
         }
