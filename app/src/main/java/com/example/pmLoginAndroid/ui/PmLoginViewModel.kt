@@ -43,17 +43,15 @@ internal class PmLoginViewModel @Inject constructor(
 
     fun loadAvailableSocials() {
         viewModelScope.launch(Dispatchers.IO) {
-            val socials = safeApiCall(pmService::getAvailableSocials)
 
-            withContext(Dispatchers.Main) {
-                when (socials) {
-                    is ResultWrapper.Success -> {
-                        _viewState.value = ViewState.SocialSelect(socialsMapper.map(socials.value))
-                    }
-                    is ResultWrapper.Error -> {
-                        onNetworkRequestError(socials)
+            when (val socials = safeApiCall(pmService::getAvailableSocials)) {
+                is ResultWrapper.Success -> {
+                    withContext(Dispatchers.Main) {
+                        _viewState.value =
+                            ViewState.SocialSelect(socialsMapper.map(socials.value))
                     }
                 }
+                is ResultWrapper.Error -> onNetworkRequestError(socials)
             }
         }
     }
@@ -62,20 +60,17 @@ internal class PmLoginViewModel @Inject constructor(
         _viewState.value = ViewState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             val chosenSocialRequestData = ChosenSocialRequestData(social.id, pmOptions.redirectUrl)
-            val uriData = safeApiCall { pmService.getAuthUriData(chosenSocialRequestData) }
 
-            withContext(Dispatchers.Main) {
-                when (uriData) {
-                    is ResultWrapper.Success -> {
-                        val urlBuilder = urlBuilderFactory.create(social)
-                        val uri = urlBuilder.build(uriData.value)
+            when (val uriData = safeApiCall { pmService.getAuthUriData(chosenSocialRequestData) }) {
+                is ResultWrapper.Success -> {
+                    val urlBuilder = urlBuilderFactory.create(social)
+                    val uri = urlBuilder.build(uriData.value)
+                    withContext(Dispatchers.Main) {
                         currentSessionId = uriData.value.state
                         _viewState.value = ViewState.BrowserLogin(uri)
                     }
-                    is ResultWrapper.Error -> {
-                        onNetworkRequestError(uriData)
-                    }
                 }
+                is ResultWrapper.Error -> onNetworkRequestError(uriData)
             }
         }
     }
@@ -89,26 +84,26 @@ internal class PmLoginViewModel @Inject constructor(
             val profile =
                 safeApiCall { pmService.getProfileInfo(ProfileRequestData(currentSessionId)) }
 
-            withContext(Dispatchers.Main) {
-                when (profile) {
-                    is ResultWrapper.Success -> {
+            when (profile) {
+                is ResultWrapper.Success -> {
+                    withContext(Dispatchers.Main) {
                         loginResultObservable.value = requiredFieldUseCase.invoke(profile.value)
                         _viewState.value =
                             if (loginResultObservable.value is LoginResult.Success) ViewState.Success
                             else ViewState.Error(LoginError.NoRequiredFieldsError)
                     }
-                    is ResultWrapper.Error -> {
-                        onNetworkRequestError(profile)
-                    }
                 }
+                is ResultWrapper.Error -> onNetworkRequestError(profile)
             }
         }
     }
 
-    private fun onNetworkRequestError(request: ResultWrapper.Error) {
+    private suspend fun onNetworkRequestError(request: ResultWrapper.Error) {
         val error = errorMapper.map(request)
-        _viewState.value = ViewState.Error(error)
-        loginResultObservable.value = LoginResult.Error(error)
+        withContext(Dispatchers.Main) {
+            _viewState.value = ViewState.Error(error)
+            loginResultObservable.value = LoginResult.Error(error)
+        }
     }
 }
 

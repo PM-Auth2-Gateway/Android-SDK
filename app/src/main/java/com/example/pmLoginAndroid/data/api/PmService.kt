@@ -19,5 +19,5 @@ internal interface PmService {
     suspend fun getAuthUriData(@Body chosenSocialRequestData: ChosenSocialRequestData): AuthUriData
 
     @POST("Profile/info")
-    suspend fun getProfileInfo(@Body profileRequestData: ProfileRequestData): HashMap<String, Any>
+    suspend fun getProfileInfo(@Body profileRequestData: ProfileRequestData): HashMap<String, String?>
 }

@@ -6,7 +6,7 @@ import com.example.pmLoginAndroid.client.model.LoginResult
 import javax.inject.Inject
 
 class RequiredFieldUseCase @Inject constructor(private val options: PmLogin.PmOptions) {
-    operator fun invoke(profile: HashMap<String, Any>): LoginResult {
+    operator fun invoke(profile: HashMap<String, String?>): LoginResult {
         options.requiredFields.forEach {
             if (profile[it] == null) return LoginResult.Error(LoginError.NoRequiredFieldsError)
         }

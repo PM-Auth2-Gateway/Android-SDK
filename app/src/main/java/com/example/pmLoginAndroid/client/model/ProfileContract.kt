@@ -9,5 +9,4 @@ object ProfileContract {
     const val EMAIL = "email"
     const val PHOTO = "photo"
     const val LOCALE = "locale"
-//    const val ADDITIONAL_INFO = "PROFILE_ADDITIONAL_INFO"
 }

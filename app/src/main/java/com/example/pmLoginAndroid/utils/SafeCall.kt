@@ -14,11 +14,11 @@ internal suspend fun <T> safeApiCall(
             is IOException -> ResultWrapper.Error(isNetworkError = true)
             is HttpException -> {
                 val code = throwable.code()
-                val errorResponse = throwable.response().toString()
+                val errorResponse = throwable.response()?.errorBody()
                 ResultWrapper.Error(
                     isNetworkError = false,
                     code = code,
-                    error = errorResponse
+                    errorBody = errorResponse
                 )
             }
             else -> {

@@ -5,6 +5,7 @@ import com.example.pmLoginAndroid.client.PmLogin
 import com.example.pmLoginAndroid.client.model.LoginResult
 import com.example.pmLoginAndroid.data.api.AuthHeadersInterceptor
 import com.example.pmLoginAndroid.data.api.PmService
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -60,6 +61,10 @@ internal class LibraryModule(
             GsonBuilder().setLenient().create()
         )
     }
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson = Gson()
 
     @Provides
     @Singleton
