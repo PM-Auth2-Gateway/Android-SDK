@@ -28,7 +28,7 @@ import javax.inject.Inject
 internal class PmLoginFragment : DialogFragment() {
 
     companion object {
-        private const val KEY_REQUEST_PROFILE = "11111111111"
+        private const val KEY_REQUEST_PROFILE = "777"
 
         fun newInstance(): PmLoginFragment = PmLoginFragment()
     }
@@ -42,6 +42,8 @@ internal class PmLoginFragment : DialogFragment() {
 
     private lateinit var socialsAdapter: SocialsAdapter
     private var shouldRequestProfile: Boolean = false
+    private var resultAnimationStarted: Boolean = false
+    // Lottie workaround
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -136,7 +138,10 @@ internal class PmLoginFragment : DialogFragment() {
                 repeatCount = 0
                 playAnimation()
                 addAnimatorUpdateListener {
-                    if (it.animatedFraction >= 1) dialog?.dismiss()
+                    if (it.animatedFraction == 0f)
+                        resultAnimationStarted = true
+                    if (resultAnimationStarted && it.animatedFraction >= 1)
+                        dialog?.dismiss()
                 }
             }
         }
@@ -156,7 +161,10 @@ internal class PmLoginFragment : DialogFragment() {
                 repeatCount = 0
                 playAnimation()
                 addAnimatorUpdateListener {
-                    if (it.animatedFraction >= 1) dialog?.dismiss()
+                    if (it.animatedFraction == 0f)
+                        resultAnimationStarted = true
+                    if (resultAnimationStarted && it.animatedFraction >= 1)
+                        dialog?.dismiss()
                 }
             }
         }
