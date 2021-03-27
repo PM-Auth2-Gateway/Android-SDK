@@ -6,6 +6,7 @@ import com.bumptech.glide.Glide
 import com.example.pmLoginAndroid.R
 import com.example.pmLoginAndroid.data.response.AvailableSocialModel
 import com.example.pmLoginAndroid.databinding.SocialItemBinding
+import com.example.pmLoginAndroid.utils.onSingleClickListener
 
 internal class SocialViewHolder(itemView: View, private val callback: (Int) -> Unit) :
     RecyclerView.ViewHolder(itemView) {
@@ -15,7 +16,7 @@ internal class SocialViewHolder(itemView: View, private val callback: (Int) -> U
     fun bind(social: AvailableSocialModel) {
         binding.apply {
             tvSocialName.text = social.name
-            root.setOnClickListener {
+            root.onSingleClickListener {
                 callback(social.id)
             }
             Glide.with(ivSocialIcon)
