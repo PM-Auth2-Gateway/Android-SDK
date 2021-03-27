@@ -2,7 +2,7 @@ package com.example.pmLoginAndroid.utils
 
 import android.os.SystemClock
 import android.view.View
-import com.example.pmLoginAndroid.utils.LastClickTime.lastClickTime
+import com.example.pmLoginAndroid.utils.LastTimeClicked.lastClickTime
 
 fun View.onSingleClickListener(defaultInterval: Int = 300, onSafeClick: (View) -> Unit) {
     this.setOnClickListener(object : View.OnClickListener {
@@ -17,6 +17,6 @@ fun View.onSingleClickListener(defaultInterval: Int = 300, onSafeClick: (View) -
     })
 }
 
-internal object LastClickTime {
+internal object LastTimeClicked {
     var lastClickTime: Long = 0
 }
