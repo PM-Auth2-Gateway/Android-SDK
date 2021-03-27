@@ -7,7 +7,7 @@ data class ErrorResponse(
     @SerializedName("error")
     val error: String,
     @SerializedName("errorCode")
-    val errorCode: Int,
+    val errorCode: String,
     @SerializedName("error_description")
     val errorDescription: String
 )
