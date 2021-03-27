@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginVertical="@dimen/rv_items_margin"
     android:background="@drawable/list_item_bg"
-    android:drawablePadding="@dimen/default_drawable_padding"
     android:gravity="center_vertical"
-    android:padding="@dimen/rv_item_padding"
-    android:textColor="@color/white"
-    android:textSize="@dimen/social_name_size"
-    tools:drawableStart="@drawable/ic_google_plus_circle_shadow"
-    tools:text="Google" />
+    android:padding="@dimen/rv_item_padding">
+
+    <ImageView
+        android:id="@+id/iv_social_icon"
+        android:layout_width="@dimen/social_icon_size"
+        android:layout_height="@dimen/social_icon_size"
+        tools:background="@drawable/icon_placeholder"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tv_social_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/default_drawable_padding"
+        android:paddingStart="@dimen/default_drawable_padding"
+        android:textColor="@color/white"
+        android:textSize="@dimen/social_name_size"
+        tools:text="Google" />
+
+</LinearLayout>
