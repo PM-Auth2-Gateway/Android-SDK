@@ -17,7 +17,7 @@ import com.airbnb.lottie.LottieDrawable
 import com.example.pmLoginAndroid.R
 import com.example.pmLoginAndroid.client.PmLogin
 import com.example.pmLoginAndroid.client.model.LoginError
-import com.example.pmLoginAndroid.data.response.LoginSocial
+import com.example.pmLoginAndroid.data.response.AvailableSocialModel
 import com.example.pmLoginAndroid.databinding.PmLoginFragmentBinding
 import com.example.pmLoginAndroid.ui.adapter.SocialsAdapter
 import com.example.pmLoginAndroid.utils.injectViewModel
@@ -28,7 +28,7 @@ import javax.inject.Inject
 internal class PmLoginFragment : DialogFragment() {
 
     companion object {
-        private const val KEY_REQUEST_PROFILE = "11111111111"
+        private const val KEY_REQUEST_PROFILE = "777"
 
         fun newInstance(): PmLoginFragment = PmLoginFragment()
     }
@@ -42,6 +42,8 @@ internal class PmLoginFragment : DialogFragment() {
 
     private lateinit var socialsAdapter: SocialsAdapter
     private var shouldRequestProfile: Boolean = false
+    private var resultAnimationStarted: Boolean = false
+    // Lottie workaround
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -88,7 +90,7 @@ internal class PmLoginFragment : DialogFragment() {
         _binding = null
     }
 
-    private fun onSocialSelect(socials: List<LoginSocial>) {
+    private fun onSocialSelect(socials: List<AvailableSocialModel>) {
         binding.apply {
             rvSocialSelect.setVisible(true)
             tvStatus.setVisible(false)
@@ -136,7 +138,10 @@ internal class PmLoginFragment : DialogFragment() {
                 repeatCount = 0
                 playAnimation()
                 addAnimatorUpdateListener {
-                    if (it.animatedFraction >= 1) dialog?.dismiss()
+                    if (it.animatedFraction == 0f)
+                        resultAnimationStarted = true
+                    if (resultAnimationStarted && it.animatedFraction >= 1)
+                        dialog?.dismiss()
                 }
             }
         }
@@ -156,7 +161,10 @@ internal class PmLoginFragment : DialogFragment() {
                 repeatCount = 0
                 playAnimation()
                 addAnimatorUpdateListener {
-                    if (it.animatedFraction >= 1) dialog?.dismiss()
+                    if (it.animatedFraction == 0f)
+                        resultAnimationStarted = true
+                    if (resultAnimationStarted && it.animatedFraction >= 1)
+                        dialog?.dismiss()
                 }
             }
         }
