@@ -3,7 +3,7 @@ package com.example.pmLoginAndroid.data.response
 
 import com.google.gson.annotations.SerializedName
 
-internal data class AvailableSocialData(
+internal data class AvailableSocialModel(
     @SerializedName("authUri")
     val authUri: String,
     @SerializedName("id")
@@ -11,5 +11,7 @@ internal data class AvailableSocialData(
     @SerializedName("name")
     val name: String,
     @SerializedName("tokenUrl")
-    val tokenUrl: String
+    val tokenUrl: String,
+    @SerializedName("logoPath")
+    val logoPath: String
 )

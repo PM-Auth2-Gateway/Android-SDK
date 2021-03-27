@@ -17,7 +17,7 @@ import com.airbnb.lottie.LottieDrawable
 import com.example.pmLoginAndroid.R
 import com.example.pmLoginAndroid.client.PmLogin
 import com.example.pmLoginAndroid.client.model.LoginError
-import com.example.pmLoginAndroid.data.response.LoginSocial
+import com.example.pmLoginAndroid.data.response.AvailableSocialModel
 import com.example.pmLoginAndroid.databinding.PmLoginFragmentBinding
 import com.example.pmLoginAndroid.ui.adapter.SocialsAdapter
 import com.example.pmLoginAndroid.utils.injectViewModel
@@ -88,7 +88,7 @@ internal class PmLoginFragment : DialogFragment() {
         _binding = null
     }
 
-    private fun onSocialSelect(socials: List<LoginSocial>) {
+    private fun onSocialSelect(socials: List<AvailableSocialModel>) {
         binding.apply {
             rvSocialSelect.setVisible(true)
             tvStatus.setVisible(false)
