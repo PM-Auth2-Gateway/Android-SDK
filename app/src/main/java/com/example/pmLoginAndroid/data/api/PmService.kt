@@ -10,11 +10,9 @@ import retrofit2.http.POST
 
 internal interface PmService {
 
-    //    @Headers("App_id: 1", "accept: text/plain")
     @GET("Socials")
     suspend fun getAvailableSocials(): AvailableSocials
 
-    //    @Headers("App_id: 1", "accept: text/plain")
     @POST("Socials/auth-link")
     suspend fun getAuthUriData(@Body chosenSocialRequestData: ChosenSocialRequestData): AuthUriData
 

@@ -10,12 +10,12 @@ import javax.inject.Inject
 internal class ErrorMapper @Inject constructor(private val gson: Gson) {
 
     private companion object {
-        const val CODE_SESSION_EXPIRED = "10"
-        const val CODE_ABORTED = "12"
-        const val CODE_SERVER_ERROR = "14"
-        const val CODE_INVALID_ID = "16"
-        const val CODE_TOKEN_ERROR = "18"
-        const val CODE_UNAUTHORIZED_ACCESS = "20"
+        const val CODE_SESSION_EXPIRED = 10
+        const val CODE_ABORTED = 12
+        const val CODE_SERVER_ERROR = 14
+        const val CODE_INVALID_ID = 16
+        const val CODE_TOKEN_ERROR = 18
+        const val CODE_UNAUTHORIZED_ACCESS = 20
     }
 
     fun map(error: ResultWrapper.Error): LoginError {

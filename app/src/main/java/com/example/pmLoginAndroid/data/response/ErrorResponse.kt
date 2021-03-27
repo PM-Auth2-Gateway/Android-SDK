@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class ErrorResponse(
     @SerializedName("error")
-    val error: String,
+    val error: String?,
     @SerializedName("errorCode")
-    val errorCode: String,
+    val errorCode: Int?,
     @SerializedName("error_description")
-    val errorDescription: String
+    val errorDescription: String?
 )
