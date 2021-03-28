@@ -7,4 +7,5 @@
 
     <string name="login_success">Success</string>
     <string name="cancel">Cancel</string>
+    <string name="sign_btn">Sign in with PM Auth</string>
 </resources>
