@@ -24,7 +24,7 @@ internal class ErrorMapper @Inject constructor(private val gson: Gson) {
 
         error.errorBody?.let {
             val errorModel = gson.fromJson(error.errorBody.string(), ErrorResponse::class.java)
-            return when (errorModel?.errorCode) {
+            return when (errorModel.errorCode) {
                 CODE_SESSION_EXPIRED -> LoginError.SessionIdExpired
                 CODE_ABORTED -> LoginError.UserAbortedLogin
                 CODE_SERVER_ERROR -> LoginError.ErrorDuringAuthorization
