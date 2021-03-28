@@ -14,4 +14,7 @@
     <dimen name="status_indicator_size">150dp</dimen>
     <dimen name="rv_items_margin">4dp</dimen>
     <dimen name="status_msg_text_size">16sp</dimen>
+
+    <dimen name="iv_login_btn">50dp</dimen>
+    <dimen name="btn_login_pad">20dp</dimen>
 </resources>
