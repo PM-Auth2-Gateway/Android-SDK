@@ -13,9 +13,6 @@ internal class ErrorMapper @Inject constructor(private val gson: Gson) {
         const val CODE_SESSION_EXPIRED = 10
         const val CODE_ABORTED = 12
         const val CODE_SERVER_ERROR = 14
-        const val CODE_INVALID_ID = 16
-        const val CODE_TOKEN_ERROR = 18
-        const val CODE_UNAUTHORIZED_ACCESS = 20
     }
 
     fun map(error: ResultWrapper.Error): LoginError {
@@ -24,13 +21,10 @@ internal class ErrorMapper @Inject constructor(private val gson: Gson) {
 
         error.errorBody?.let {
             val errorModel = gson.fromJson(error.errorBody.string(), ErrorResponse::class.java)
-            return when (errorModel?.errorCode) {
+            return when (errorModel.errorCode) {
                 CODE_SESSION_EXPIRED -> LoginError.SessionIdExpired
                 CODE_ABORTED -> LoginError.UserAbortedLogin
                 CODE_SERVER_ERROR -> LoginError.ErrorDuringAuthorization
-                CODE_INVALID_ID -> LoginError.InvalidId
-                CODE_TOKEN_ERROR -> LoginError.TokenError
-                CODE_UNAUTHORIZED_ACCESS -> LoginError.UnauthorizedAccess
                 else -> LoginError.GenericError
             }
         }
