@@ -9,8 +9,5 @@ enum class LoginError(@IdRes val msgId: Int) {
     NoRequiredFieldsError(R.string.no_required_fields_error),
     UserAbortedLogin(R.string.aborted_authorization_error),
     SessionIdExpired(R.string.session_id_expired_error),
-    ErrorDuringAuthorization(R.string.authorization_error),
-    InvalidId(R.string.invalid_id),
-    TokenError(R.string.token_error),
-    UnauthorizedAccess(R.string.unauthorized_access),
+    ErrorDuringAuthorization(R.string.authorization_error)
 }
