@@ -1,100 +1,123 @@
-# PM Login Android Sdk
+# PM Auth
+## _Social networks authorization with few lines of code_
 
-## PMAuth Login for Android – Quickstart
+PM Auth is an authorization service available for Android, iOS and WEB.
 
-The PMAuth library for Android allows people to sign into your app with various social networks. When people log into your app with social networks they can grant permissions to your app so you can retrieve information from users profile.
-For an example project that illustrates how to integrate Facebook Login into an Android app, see the PMAuthSampleLogin on GitHub. 
-https://github.com/PM-Auth2-Gateway/Android-SDK
+- Multi-platrofrm
+- Reliable
+- Intuitive
+- ✨Magical ✨
 
-Follow the steps below to add PMAuth Login to your app.
+## Features
 
-## 1. Integrate the PMAuth library
+- Authorization with multiple social networks
+- Verification of required fieds
+- Informative user feedback
 
-1. In your project, open Files  >  New  >  Import Module  >  Select source directory with dowloaded PMAuth library  >  Check “Import” and set the Module Name for library  >  Finish.
-2. In your project, open  your_app > Gradle Scripts > build.gradle (Module: app)  and add the following implementation statement to the dependencies{} section
+As Bogdan Khrysanfov says
 
-```gradle
-implementation project(path: ':module-name')
+> It's like uLogin, but better
+
+## Tech
+
+Dillinger uses a number of open source projects to work properly:
+
+- [Retrofit] - Networking done right
+- [Dagger2] - Powerful DI library
+- [Chrome Custom Tab] - Best of WebView and browser combined
+- [Kotlin Coroutines] - YES
+- [Glide] - Easy and reliable way to work with images
+
+
+## Installation
+
+PM Auth requires Android SDK 21+ to work.
+
+1. Download library source from this page.
+
+2. Import library module to your project
+
+3. Go to app level build.gradle file and add following dependency
+
+```groovy
+implementation project (path: ':module_name')
 ```
 
-3. Build your  project.
+## Quick Start
 
-
-
-## 2. Edit Your Manifest
-1. Open the /app/manifest/AndroidManifest.xml file.
-2. Add the following intent-filter element for Chrome Custom Tabs inside your application element:
+Add deep link intent filter to your activity
 
 ```xml
-<intent-filter>
-    <action android:name="android.intent.action.VIEW" />
-    <category android:name="android.intent.category.DEFAULT" />
-    <category android:name="android.intent.category.BROWSABLE" />
-    <data
-        android:host="test"
-        android:scheme="pmlogintest" />
-</intent-filter>
+    <intent-filter>
+
+        <action android:name="android.intent.action.VIEW" />
+
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+
+        <data
+            android:host="your_host"
+            android:scheme="your_scheme" />
+            
+    </intent-filter>
 ```
 
-3. Set launchMode for your login activity:
-android:launchMode="singleTop"
+Set activity launch mode to "singleTop"
 
+```xml
+    <activity
+        android:name=".YourActivity"
+        android:launchMode="singleTop">
+```
 
-## 3. Setup PMOptions
-Now create PmOptions instance in your Activity or Fragment to configure library.
+Initialize library client
 
 ```kotlin
-val options = PmLogin.PmOptions(
-    appId = "1", redirectUrl = "pmlogintest://test", requiredFields = listOf(
+    val requiredFields = listOf(
         ProfileContract.ID,
-        ProfileContract.EMAIL,
+        ProfileContract.FIRST_NAME,
+        ProfileContract.LAST_NAME
     )
-)
+    
+    val options = PmLogin.PmOption(APP_ID, REDIRECT_URL, requiredFieds)
+    
+    val client = PmLogin.PmClient(options)
 ```
 
-RequiredFields  you can request are listed in ProfileContract
-
-
-## 4. Initiate PmClient
-Initiate PmClient in your Activity or Fragment.
+Now you can start login with single line of code
 
 ```kotlin
-val client = PmLogin.PmClient(options)
+    client.startLogin(activity) 
 ```
 
-## 5. Register a Callback
-Now observe on a client.loginResult to handle login responses.
+To get the result, observe loginResult property
 
 ```kotlin
-client.loginResult.observe(this) { result ->
-    Toast.makeText(this, "I've got a result ${ result }", Toast.LENGTH_SHORT).show()
-}
+    client.loginResult.observe(this) { result ->
+        val msg = when (result) {
+            is LoginResult.Success -> "Your name is ${result[ProfileContract.FIRST_NAME}"
+            is LoginResult.Error -> "Something went wrong"
+        }
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+    }
 ```
 
-
-## 6. Add the Login Button
-The simplest way to add PMAuth login to your app is to add PMAuthButton. When someone clicks on the button, the login is initiated.
-To add the Login button, first add it to your layout XML file:
+We also provide stylized button, simply add it like a usual button
 
 ```xml
-<com.example.pmLoginAndroid.ui.PMAuthButton
+    <com.example.pmLoginAndroid.ui.PMAuthButton
     android:id="@+id/btn_pmlogin"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    android:layout_height="wrap_content" />
 ```
+ __Congratulations, you're all set__
 
 
-## 7. Register a Listener
-Set a click listener to open a Pop-Up with login through social networks. It is recommended to use onSingleClickListener , provided by library.
 
-```kotlin
-binding.btnPmlogin.onSingleClickListener {
-    client.startLogin(this)
-}
-```
+   [Retrofit]: <https://square.github.io/retrofit/>
+   [Dagger2]: <https://dagger.dev/>
+   [Chrome Custom Tab]: <https://developer.chrome.com/docs/android/custom-tabs/overview/>
+   [Kotlin Coroutines]: <https://kotlinlang.org/docs/coroutines-overview.html>
+   [Glide]: <https://github.com/bumptech/glide>
 
-### Congrats, you've added PMAuth Login to your Android app!
+   
